@@ -33,7 +33,7 @@ task createFatJar(type: Jar) {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/io.javalin/javalin
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     implementation "org.slf4j:slf4j-simple:1.7.30"
 
     // https://mvnrepository.com/artifact/io.javalin/javalin
