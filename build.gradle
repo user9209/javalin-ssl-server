@@ -3,15 +3,39 @@ plugins {
 }
 
 group 'de.cryptosdk'
-version '1.0-SNAPSHOT'
+version '0.0.1'
 
 repositories {
     mavenCentral()
 }
 
+task executeApp(type:JavaExec) {
+    main = "de.cryptosdk.javalin.ssl.server.SslHttpServer"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task createFatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar Big',
+                'Implementation-Version': version,
+                'Main-Class': "de.cryptosdk.javalin.ssl.server.SslHttpServer"
+    }
+    baseName ='Javalin-Https-Server-all'
+
+    duplicatesStrategy = 'exclude'
+
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
     // https://mvnrepository.com/artifact/io.javalin/javalin
     implementation "org.slf4j:slf4j-simple:1.7.30"
+
     // https://mvnrepository.com/artifact/io.javalin/javalin
     implementation group: 'io.javalin', name: 'javalin', version: '4.6.4'
 
