@@ -13,7 +13,7 @@ import java.security.cert.CertificateException;
 
 public class SslContextForJavalin {
 
-    private static final String pkcs12Keyfile = "sslZert.p12";
+    private static final String pkcs12Keyfile = "localhost.p12";
     private static final String pkcs12Password = "1234";
 
     public static Server getServer(int portHttp, int portHttps, boolean tls_13_only) {

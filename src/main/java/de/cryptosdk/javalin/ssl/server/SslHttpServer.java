@@ -19,8 +19,8 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 public class SslHttpServer {
 
 
-    public static int PORT_HTTP = -1; //50080;
-    public static int PORT_HTTPS = 50443; //-1;
+    public static int PORT_HTTP = -1; //80;
+    public static int PORT_HTTPS = 443; //-1;
 
     public static void main(String ... args) {
         boolean tls_13_only = true;
@@ -59,6 +59,8 @@ public class SslHttpServer {
             });
             event.serverStopped(() -> { System.out.println("Server is stopped successfully!"); });
         });
+        System.err.println("[main] INFO io.javalin.Javalin - Listening also on https://127.0.0.1:" + PORT_HTTPS + "/");
+        System.err.println("[main] INFO io.javalin.Javalin - Have Fun!");
     }
 
     private static class NoLogging implements Logger {
