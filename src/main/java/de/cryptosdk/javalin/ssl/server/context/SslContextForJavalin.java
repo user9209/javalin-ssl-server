@@ -46,7 +46,7 @@ public class SslContextForJavalin {
         KeyStore keyStore;
         try {
             keyStore = KeyStore.getInstance("pkcs12");
-            keyStore.load(new FileInputStream(pkcs12Keyfile), pkcs12Password.toCharArray());
+            keyStore.load(SslContextForJavalin.class.getClassLoader().getResourceAsStream(pkcs12Keyfile), pkcs12Password.toCharArray());
 
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
             throw new RuntimeException();
