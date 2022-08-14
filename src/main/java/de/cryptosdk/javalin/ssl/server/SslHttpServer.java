@@ -28,9 +28,6 @@ public class SslHttpServer {
         org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
 
         Javalin app = Javalin.create(config -> {
-            //  config.addStaticFiles("/public");
-            //config.server(MySimpleServer::createHttp2Server);
-
             config.server(() -> SslContextForJavalin.getServer(PORT_HTTP, PORT_HTTPS, tls_13_only));
             if(Files.exists(Path.of("data/module/api/htmlStatic"))) {
                 config.addStaticFiles("data/module/api/htmlStatic", Location.EXTERNAL);
