@@ -28,18 +28,19 @@ public class SslHttpServer {
         org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
 
         Javalin app = Javalin.create(config -> {
-            config.server(() -> SslContextForJavalin.getServer(PORT_HTTP, PORT_HTTPS, tls_13_only));
+            config.jetty.server(() -> SslContextForJavalin.getServer(PORT_HTTP, PORT_HTTPS, tls_13_only));
+
             if(Files.exists(Path.of("data/module/api/htmlStatic"))) {
-                config.addStaticFiles("data/module/api/htmlStatic", Location.EXTERNAL);
+                config.staticFiles.add("data/module/api/htmlStatic", Location.EXTERNAL);
             }
 
             if(new File(JAR_LOCATION + "static").exists()) {
-                config.addStaticFiles(JAR_LOCATION + "static", Location.EXTERNAL);
+                config.staticFiles.add(JAR_LOCATION + "static", Location.EXTERNAL);
             } else {
                 System.out.println("No static content!");
             }
-            config.enforceSsl = true;
-            config.maxRequestSize = 4096000L;
+            //config.enforceSsl = true;
+            config.http.maxRequestSize = 4096000L;
         }).start();
 
         app.routes(() -> {
