@@ -20,7 +20,7 @@ task createFatJar(type: Jar) {
                 'Implementation-Version': version,
                 'Main-Class': "de.cryptosdk.javalin.ssl.server.SslHttpServer"
     }
-    baseName ='Javalin-Https-Server-all'
+    archiveBaseName = 'Javalin-Https-Server-all'
 
     duplicatesStrategy = 'exclude'
 
