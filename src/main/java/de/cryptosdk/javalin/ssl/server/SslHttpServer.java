@@ -28,7 +28,7 @@ public class SslHttpServer {
         org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
 
         Javalin app = Javalin.create(config -> {
-            config.jetty.server(() -> SslContextForJavalin.getServer(PORT_HTTP, PORT_HTTPS, tls_13_only));
+            config.jetty.modifyServer((server) -> SslContextForJavalin.modifyServer(server,PORT_HTTP, PORT_HTTPS, tls_13_only));
 
             if(Files.exists(Path.of("data/module/api/htmlStatic"))) {
                 config.staticFiles.add("data/module/api/htmlStatic", Location.EXTERNAL);
@@ -41,12 +41,13 @@ public class SslHttpServer {
             }
             //config.enforceSsl = true;
             config.http.maxRequestSize = 4096000L;
-        }).start();
 
-        app.routes(() -> {
-            before(BasicHandler.beforeHandler);
-            get("/", IndexHandler.handle);
-        });
+            config.router.apiBuilder(() -> {
+                before(BasicHandler.beforeHandler);
+                get("/", IndexHandler.handle);
+            });
+
+        }).start();
 
         app.exception(SkipOtherSteps.class, (e, ctx) -> {});
 
