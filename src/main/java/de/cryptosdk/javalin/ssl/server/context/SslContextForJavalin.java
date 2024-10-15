@@ -28,8 +28,7 @@ public class SslContextForJavalin {
 
     private static final Logger LOG = LoggerFactory.getLogger(ErrorHandler.class);
 
-    public static Server getServer(int portHttp, int portHttps, boolean tls_13_only) {
-        Server server = new Server();
+    public static void modifyServer(Server server, int portHttp, int portHttps, boolean tls_13_only) {
         ServerConnector sslConnector = null;
         ServerConnector connector = null;
 
@@ -51,7 +50,6 @@ public class SslContextForJavalin {
             server.setConnectors(new Connector[]{sslConnector, connector});
         }
         server.setErrorHandler(new FixedErrorHandler());
-        return server;
     }
 
     private static SslContextFactory.Server getSslContextFactory(boolean tls_13_only) {
